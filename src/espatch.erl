@@ -485,10 +485,10 @@ guard2_test() ->
 guard3_test() ->
     %% Check that path_info and path_tokens are passed to the guard...
     Guard =
-        fun(_RD, _ED) ->
-                %% ?assertEqual("a", wrq:path_info(a, RD)),
-                %% ?assertEqual("b", wrq:path_info(b, RD)),
-                %% ?assertEqual("c", wrq:path_info(c, RD)),
+        fun(_RD, ED) ->
+                ?assertEqual({ok, "a"}, dict:find(a, ED#espatch_data.path_info)),
+                ?assertEqual({ok, "b"}, dict:find(b, ED#espatch_data.path_info)),
+                ?assertEqual({ok, "c"}, dict:find(c, ED#espatch_data.path_info)),
                 %% ?assertEqual(["d", "e"], wrq:path_tokens(RD)),
                 true
         end,
@@ -503,11 +503,11 @@ guard3_test() ->
 guard4_test() ->
     %% Check that host and port are possed to the guard...
     Guard =
-        fun(_RD, _ED) ->
-                %% ?assertEqual("0", wrq:path_info(x, RD)),
-                %% ?assertEqual("0", wrq:path_info(y, RD)),
-                %% ?assertEqual("1", wrq:path_info(z, RD)),
-                %% ?assertEqual(80, wrq:port(RD)),
+        fun(_RD, ED) ->
+                ?assertEqual({ok, "0"}, dict:find(x, ED#espatch_data.path_info)),
+                ?assertEqual({ok, "0"}, dict:find(y, ED#espatch_data.path_info)),
+                ?assertEqual({ok, "1"}, dict:find(z, ED#espatch_data.path_info)),
+                ?assertEqual(80, ED#espatch_data.port),
                 true
         end,
     DispatchList=
